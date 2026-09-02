@@ -9,8 +9,16 @@ const { setUserLocals } = require('./middleware/authMiddleware');
 // Initialize Express app
 const app = express();
 
-// Connect to MongoDB Atlas / Database
-connectDB();
+// Middleware to ensure DB connection on serverless requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('Database Connection Error:', err.message);
+    next();
+  }
+});
 
 // EJS View Engine Setup (SSR)
 app.set('view engine', 'ejs');
