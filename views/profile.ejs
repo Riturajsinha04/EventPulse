@@ -1,0 +1,69 @@
+<%- include('partials/header', { title: 'User Profile' }) %>
+<%- include('partials/navbar') %>
+
+<main class="container">
+  <div style="margin: 2.5rem 0; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem; display: flex; align-items: center; gap: 1.5rem;">
+    <img src="<%= userProfile.avatar %>" alt="<%= userProfile.username %>" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--accent-blue);">
+    <div>
+      <h1 style="font-size: 1.8rem; font-weight: 800;"><%= userProfile.username %></h1>
+      <p style="color: var(--text-muted); margin: 0.2rem 0 0.5rem;"><%= userProfile.bio %></p>
+      <p style="font-size: 0.8rem; color: var(--text-dim);">
+        <i class="fa-regular fa-envelope"></i> <%= userProfile.email %> &bull; Member since <%= new Date(userProfile.createdAt).toLocaleDateString() %>
+      </p>
+    </div>
+  </div>
+
+  <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.25rem;">
+    <i class="fa-solid fa-rocket"></i> Products Launched by You (<%= userProducts.length %>)
+  </h2>
+
+  <div class="products-grid" style="margin-bottom: 3rem;">
+    <% if (userProducts && userProducts.length > 0) { %>
+      <% userProducts.forEach(product => { %>
+        <article class="product-card">
+          <div class="card-header">
+            <img src="<%= product.imageUrl %>" alt="<%= product.title %>" class="product-thumb">
+            <div class="product-info">
+              <a href="/products/<%= product._id %>" class="product-title"><%= product.title %></a>
+              <p class="product-tagline"><%= product.tagline %></p>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span style="font-size: 0.85rem; color: var(--text-muted);"><%= product.upvotes ? product.upvotes.length : 0 %> upvotes</span>
+            <a href="/products/<%= product._id %>" class="btn btn-secondary" style="padding: 0.3rem 0.7rem; font-size: 0.8rem;">View Page</a>
+          </div>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <div style="grid-column: 1 / -1; padding: 2rem; background: var(--bg-card); border-radius: var(--radius-md); text-align: center; color: var(--text-muted);">
+        You haven't submitted any products yet. <a href="/products/new" style="color: var(--accent-blue); font-weight: 700;">Submit your first product</a>!
+      </div>
+    <% } %>
+  </div>
+
+  <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1.25rem;">
+    <i class="fa-solid fa-fire"></i> Upvoted Products (<%= upvotedProducts.length %>)
+  </h2>
+
+  <div class="products-grid">
+    <% if (upvotedProducts && upvotedProducts.length > 0) { %>
+      <% upvotedProducts.forEach(product => { %>
+        <article class="product-card">
+          <div class="card-header">
+            <img src="<%= product.imageUrl %>" alt="<%= product.title %>" class="product-thumb">
+            <div class="product-info">
+              <a href="/products/<%= product._id %>" class="product-title"><%= product.title %></a>
+              <p class="product-tagline"><%= product.tagline %></p>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <div style="grid-column: 1 / -1; padding: 2rem; background: var(--bg-card); border-radius: var(--radius-md); text-align: center; color: var(--text-muted);">
+        No upvoted products yet.
+      </div>
+    <% } %>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,65 @@
+<%- include('partials/header', { title: 'Launch Your Product' }) %>
+<%- include('partials/navbar') %>
+
+<main class="container">
+  <div class="form-card">
+    <h1 class="form-title">🚀 Launch Your Product</h1>
+    <p class="form-subtitle">Share your creation with thousands of indie hackers and tech enthusiasts.</p>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-danger">
+        <i class="fa-solid fa-circle-exclamation"></i> <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/products/new" method="POST">
+      <div class="form-group">
+        <label class="form-label" for="title">Product Name *</label>
+        <input type="text" id="title" name="title" class="form-control" placeholder="e.g. CodePulse AI" maxlength="60" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="tagline">Tagline (One sentence summary) *</label>
+        <input type="text" id="tagline" name="tagline" class="form-control" placeholder="e.g. AI-powered code review assistant for GitHub PRs" maxlength="140" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="category">Category *</label>
+        <select id="category" name="category" class="form-control" required>
+          <option value="AI">AI</option>
+          <option value="SaaS" selected>SaaS</option>
+          <option value="Developer Tools">Developer Tools</option>
+          <option value="Web3">Web3</option>
+          <option value="Productivity">Productivity</option>
+          <option value="Design">Design</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="demoUrl">Website / Demo URL *</label>
+        <input type="url" id="demoUrl" name="demoUrl" class="form-control" placeholder="https://yourproduct.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="imageUrl">Logo / Thumbnail Image URL</label>
+        <input type="url" id="imageUrl" name="imageUrl" class="form-control" placeholder="https://images.unsplash.com/... (optional)">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="tags">Tags (comma separated)</label>
+        <input type="text" id="tags" name="tags" class="form-control" placeholder="e.g. ai, github, devtools, react">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="description">Detailed Description *</label>
+        <textarea id="description" name="description" class="form-control" placeholder="Explain what problem your product solves, key features, tech stack, and future roadmap..." rows="6" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.9rem;">
+        <i class="fa-solid fa-rocket"></i> Launch Product Now
+      </button>
+    </form>
+  </div>
+</main>
+
+<%- include('partials/footer') %>
