@@ -1,14 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const productController = require('../controllers/productController');
+const indexController = require('../controllers/indexController');
 
 // Home page
-router.get('/', productController.getAllProducts);
-
-// Leaderboard page
-router.get('/leaderboard', productController.getLeaderboard);
-
-// Viva & Code Explanation Docs page
-router.get('/docs', productController.getDocs);
+router.get('/', indexController.getHomePage);
 
 module.exports = router;

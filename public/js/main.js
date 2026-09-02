@@ -1,30 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🚀 LaunchForge client scripts initialized.');
+  console.log('⚡ EventPulse client scripts initialized.');
 
-  // Smooth Category Filter Pill Selection
-  const filterChips = document.querySelectorAll('.chip');
-  filterChips.forEach(chip => {
-    chip.addEventListener('click', (e) => {
-      const selectedCategory = chip.getAttribute('data-category');
-      const urlParams = new URLSearchParams(window.location.search);
-      
-      if (selectedCategory === 'All') {
-        urlParams.delete('category');
-      } else {
-        urlParams.set('category', selectedCategory);
-      }
-      
-      window.location.search = urlParams.toString();
-    });
+  // Auto-dismiss alerts after 5 seconds
+  const alerts = document.querySelectorAll('.alert');
+  alerts.forEach(alert => {
+    setTimeout(() => {
+      alert.style.opacity = '0';
+      alert.style.transform = 'translateY(-6px)';
+      alert.style.transition = 'all 0.4s ease';
+      setTimeout(() => alert.remove(), 400);
+    }, 5000);
   });
 
-  // Sort Selector Change Listener
-  const sortSelect = document.getElementById('sortSelect');
-  if (sortSelect) {
-    sortSelect.addEventListener('change', (e) => {
-      const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set('sort', e.target.value);
-      window.location.search = urlParams.toString();
+  // Smooth hover tilt effect on event cards
+  const cards = document.querySelectorAll('.event-card, .featured-card, .speaker-card');
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s ease, box-shadow 0.25s ease';
     });
-  }
+  });
 });

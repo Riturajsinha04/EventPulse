@@ -1,0 +1,136 @@
+<%- include('../partials/header', { title: 'All Tech Events & Conferences' }) %>
+<%- include('../partials/navbar') %>
+
+<main class="main-content">
+  <div class="container py-4">
+    <!-- Header & Search -->
+    <div class="directory-header">
+      <div>
+        <h1 class="page-title"><i class="fa-solid fa-compass text-accent"></i> Tech Event Directory</h1>
+        <p class="page-subtitle">Filter by domain, location, date, or search for keynote speakers</p>
+      </div>
+
+      <% if (currentUser && currentUser.role === 'organizer') { %>
+        <a href="/events/new" class="btn btn-primary">
+          <i class="fa-solid fa-calendar-plus"></i> Host New Event
+        </a>
+      <% } %>
+    </div>
+
+    <!-- Alert Messages -->
+    <% if (error) { %>
+      <div class="alert alert-error">
+        <i class="fa-solid fa-circle-exclamation"></i> <%= error %>
+      </div>
+    <% } %>
+    <% if (success) { %>
+      <div class="alert alert-success">
+        <i class="fa-solid fa-circle-check"></i> <%= success %>
+      </div>
+    <% } %>
+
+    <!-- Filter Bar -->
+    <form action="/events" method="GET" class="filter-bar-card">
+      <div class="filter-group">
+        <label><i class="fa-solid fa-magnifying-glass"></i> Search</label>
+        <input type="text" name="search" value="<%= searchQuery %>" placeholder="Topic, speaker, or city..." class="form-control">
+      </div>
+
+      <div class="filter-group">
+        <label><i class="fa-solid fa-layer-group"></i> Category</label>
+        <select name="category" class="form-control">
+          <% categories.forEach(cat => { %>
+            <option value="<%= cat %>" <%= selectedCategory === cat ? 'selected' : '' %>><%= cat %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label><i class="fa-solid fa-location-dot"></i> Format</label>
+        <select name="locationType" class="form-control">
+          <option value="All" <%= selectedLocation === 'All' ? 'selected' : '' %>>All Formats</option>
+          <option value="In-Person" <%= selectedLocation === 'In-Person' ? 'selected' : '' %>>In-Person</option>
+          <option value="Online" <%= selectedLocation === 'Online' ? 'selected' : '' %>>Online Stream</option>
+          <option value="Hybrid" <%= selectedLocation === 'Hybrid' ? 'selected' : '' %>>Hybrid</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label><i class="fa-solid fa-arrow-down-short-wide"></i> Sort By</label>
+        <select name="sort" class="form-control">
+          <option value="date" <%= selectedSort === 'date' ? 'selected' : '' %>>Upcoming Date</option>
+          <option value="popular" <%= selectedSort === 'popular' ? 'selected' : '' %>>Most Popular (RSVPs)</option>
+          <option value="newest" <%= selectedSort === 'newest' ? 'selected' : '' %>>Recently Added</option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button type="submit" class="btn btn-primary btn-block">Filter</button>
+        <a href="/events" class="btn btn-secondary btn-block">Reset</a>
+      </div>
+    </form>
+
+    <!-- Events Grid -->
+    <div class="events-grid mt-4">
+      <% if (events && events.length > 0) { %>
+        <% events.forEach(event => { %>
+          <div class="event-card">
+            <div class="card-image-wrap">
+              <img src="<%= event.image %>" alt="<%= event.title %>" class="event-card-img">
+              <span class="price-badge <%= event.ticketPrice === 0 ? 'free-badge' : 'paid-badge' %>">
+                <%= event.ticketPrice === 0 ? 'FREE PASS' : '$' + event.ticketPrice %>
+              </span>
+            </div>
+            <div class="card-content">
+              <div class="card-meta">
+                <span class="category-pill"><%= event.category %></span>
+                <span class="location-badge location-<%= event.locationType.toLowerCase() %>">
+                  <%= event.locationType %>
+                </span>
+              </div>
+
+              <h3 class="card-title">
+                <a href="/events/<%= event._id %>"><%= event.title %></a>
+              </h3>
+              <p class="card-tagline"><%= event.tagline %></p>
+
+              <div class="card-details">
+                <div class="detail-row">
+                  <i class="fa-regular fa-calendar"></i>
+                  <span><%= new Date(event.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %></span>
+                </div>
+                <div class="detail-row">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span><%= event.venue.city %> &bull; <%= event.venue.name %></span>
+                </div>
+                <div class="detail-row">
+                  <i class="fa-solid fa-users text-accent"></i>
+                  <span><%= event.rsvps.length %> / <%= event.capacity %> Seats Booked</span>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <div class="organizer-micro">
+                  <img src="<%= event.organizer ? event.organizer.avatar : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80' %>" alt="Organizer">
+                  <span><%= event.organizer ? event.organizer.name : 'Host' %></span>
+                </div>
+                <a href="/events/<%= event._id %>" class="btn btn-secondary btn-sm">
+                  Details &amp; RSVP
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="empty-state card-box">
+          <i class="fa-solid fa-search-minus empty-icon"></i>
+          <h3>No events match your filter</h3>
+          <p>Try resetting filters or searching with different keywords.</p>
+          <a href="/events" class="btn btn-primary mt-2">Reset All Filters</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

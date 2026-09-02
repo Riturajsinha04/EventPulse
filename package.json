@@ -1,15 +1,15 @@
 {
-  "name": "launchforge",
+  "name": "eventpulse",
   "version": "1.0.0",
-  "description": "Product Hunt & YC-style Launch & Feedback Platform built with Node.js, Express, EJS SSR, and MongoDB Atlas.",
+  "description": "Tech Meetup & Conference Platform built with Node.js, Express, EJS SSR, and MongoDB Atlas.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
     "seed": "node seed.js"
   },
-  "keywords": ["express", "ejs", "mongodb", "ssr", "product-hunt", "y-combinator"],
-  "author": "Indie Hacker",
+  "keywords": ["express", "ejs", "mongodb", "ssr", "eventpulse", "tech-conferences", "meetups"],
+  "author": "Tech Community",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

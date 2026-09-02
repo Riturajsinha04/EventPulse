@@ -9,6 +9,11 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: [3, 'Username must be at least 3 characters']
   },
+  name: {
+    type: String,
+    required: [true, 'Full name is required'],
+    trim: true
+  },
   email: {
     type: String,
     required: [true, 'Email is required'],
@@ -21,14 +26,27 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters']
   },
+  role: {
+    type: String,
+    enum: ['attendee', 'organizer'],
+    default: 'attendee'
+  },
+  company: {
+    type: String,
+    default: 'Tech Enthusiast'
+  },
   bio: {
     type: String,
-    default: 'Indie Hacker & Creator building products.'
+    default: 'Passionate about technology, networking, and innovation.'
   },
   avatar: {
     type: String,
     default: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
   },
+  savedTickets: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event'
+  }],
   createdAt: {
     type: Date,
     default: Date.now

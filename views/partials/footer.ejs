@@ -1,10 +1,19 @@
 <footer class="footer">
   <div class="container">
-    <p>&copy; <%= new Date().getFullYear() %> <strong>LaunchForge</strong> &bull; Full-Stack SSR Project with Node.js, Express &amp; MongoDB Atlas.</p>
-    <p style="margin-top: 0.4rem; font-size: 0.8rem; color: var(--text-dim);">
-      Built for Product Showcase Assignment &bull; Includes Server-Side Rendering (EJS) &bull; 
-      <a href="/docs" style="color: var(--accent-blue); text-decoration: underline;">Read Code Explanation</a>
-    </p>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="logo-text"><i class="fa-solid fa-bolt text-accent"></i> Event<span class="gradient-text">Pulse</span></span>
+        <p>The premier platform for developer meetups, tech summits, and keynote conference tickets.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/events"><i class="fa-solid fa-compass"></i> Explore Events</a>
+        <a href="/events?locationType=Online"><i class="fa-solid fa-video"></i> Virtual Summits</a>
+        <a href="/events/new"><i class="fa-solid fa-calendar-plus"></i> Host a Meetup</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <%= new Date().getFullYear() %> <strong>EventPulse</strong> &bull; Node.js, Express, EJS SSR &amp; MongoDB Atlas Project.</p>
+    </div>
   </div>
 </footer>
 

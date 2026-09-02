@@ -1,33 +1,41 @@
 <header class="navbar">
   <div class="container nav-container">
     <a href="/" class="brand-logo">
-      <div class="logo-badge"><i class="fa-solid fa-rocket"></i></div>
-      <span class="logo-text">LaunchForge</span>
+      <div class="logo-badge"><i class="fa-solid fa-bolt"></i></div>
+      <span class="logo-text">Event<span class="gradient-text">Pulse</span></span>
     </a>
 
     <nav class="nav-links">
-      <a href="/" class="nav-link <%= currentPath === '/' ? 'active' : '' %>">Explore</a>
-      <a href="/leaderboard" class="nav-link <%= currentPath === '/leaderboard' ? 'active' : '' %>">Leaderboard</a>
-      <a href="/docs" class="nav-link <%= currentPath === '/docs' ? 'active' : '' %>" style="color: #38BDF8;">
-        <i class="fa-solid fa-graduation-cap"></i> Viva Code Guide
-      </a>
+      <a href="/" class="nav-link <%= currentPath === '/' ? 'active' : '' %>">Home</a>
+      <a href="/events" class="nav-link <%= currentPath.startsWith('/events') && currentPath !== '/events/new' ? 'active' : '' %>">Explore Events</a>
       
       <% if (currentUser) { %>
-        <a href="/products/new" class="btn btn-primary">
-          <i class="fa-solid fa-plus"></i> Submit Product
+        <a href="/events/my-tickets" class="nav-link <%= currentPath === '/events/my-tickets' ? 'active' : '' %>">
+          <i class="fa-solid fa-ticket"></i> My Tickets
         </a>
-        <div class="user-menu">
-          <a href="/auth/profile" title="Profile">
-            <img src="<%= currentUser.avatar %>" alt="<%= currentUser.username %>" class="user-avatar">
+        
+        <% if (currentUser.role === 'organizer') { %>
+          <a href="/events/new" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Host Event
           </a>
-          <a href="/auth/logout" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
-            Logout
+        <% } %>
+
+        <div class="user-menu">
+          <div class="user-info-badge">
+            <img src="<%= currentUser.avatar %>" alt="<%= currentUser.name %>" class="user-avatar">
+            <div class="user-details">
+              <span class="user-name"><%= currentUser.name %></span>
+              <span class="role-pill role-<%= currentUser.role %>"><%= currentUser.role.toUpperCase() %></span>
+            </div>
+          </div>
+          <a href="/auth/logout" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" title="Logout">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
           </a>
         </div>
       <% } else { %>
         <a href="/auth/login" class="nav-link">Sign In</a>
         <a href="/auth/register" class="btn btn-primary">
-          Get Started
+          Join Platform
         </a>
       <% } %>
     </nav>

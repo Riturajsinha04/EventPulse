@@ -1,0 +1,42 @@
+<%- include('../partials/header', { title: 'Sign In to EventPulse' }) %>
+<%- include('../partials/navbar') %>
+
+<main class="main-content">
+  <div class="container py-5">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo-badge mb-2"><i class="fa-solid fa-bolt"></i></div>
+        <h2>Welcome Back to EventPulse</h2>
+        <p class="text-dim">Sign in to manage your event passes or host meetups</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-error">
+          <i class="fa-solid fa-circle-exclamation"></i> <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/auth/login" method="POST" class="auth-form mt-4">
+        <div class="form-group">
+          <label for="email"><i class="fa-regular fa-envelope"></i> Email Address</label>
+          <input type="email" id="email" name="email" placeholder="name@company.com" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg mt-4">
+          Sign In
+        </button>
+      </form>
+
+      <div class="auth-footer mt-4">
+        <p>Don't have an account? <a href="/auth/register">Create Account</a></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

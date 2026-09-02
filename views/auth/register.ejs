@@ -1,0 +1,72 @@
+<%- include('../partials/header', { title: 'Join EventPulse' }) %>
+<%- include('../partials/navbar') %>
+
+<main class="main-content">
+  <div class="container py-5">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo-badge mb-2"><i class="fa-solid fa-user-plus"></i></div>
+        <h2>Create EventPulse Account</h2>
+        <p class="text-dim">Join thousands of tech leaders, speakers, and event attendees</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-error">
+          <i class="fa-solid fa-circle-exclamation"></i> <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/auth/register" method="POST" class="auth-form mt-4">
+        <div class="form-group">
+          <label for="name"><i class="fa-regular fa-id-badge"></i> Full Name *</label>
+          <input type="text" id="name" name="name" placeholder="Alex Rivera" class="form-control" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="username"><i class="fa-solid fa-at"></i> Username *</label>
+            <input type="text" id="username" name="username" placeholder="alexrivera" class="form-control" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="email"><i class="fa-regular fa-envelope"></i> Email Address *</label>
+            <input type="email" id="email" name="email" placeholder="alex@techcorp.com" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="role"><i class="fa-solid fa-user-gear"></i> Account Role *</label>
+          <select id="role" name="role" class="form-control" required>
+            <option value="attendee">Attendee (Discover &amp; Book Tickets)</option>
+            <option value="organizer">Event Organizer (Publish &amp; Manage Conferences)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="company"><i class="fa-solid fa-building"></i> Company / School</label>
+            <input type="text" id="company" name="company" placeholder="e.g. OpenAI / Stanford Tech" class="form-control">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="password"><i class="fa-solid fa-lock"></i> Password *</label>
+            <input type="password" id="password" name="password" placeholder="Min 6 characters" class="form-control" required minlength="6">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="avatar">Avatar Image URL (Optional)</label>
+          <input type="url" id="avatar" name="avatar" placeholder="https://images.unsplash.com/photo-1534528741775" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg mt-4">
+          Complete Registration
+        </button>
+      </form>
+
+      <div class="auth-footer mt-4">
+        <p>Already registered? <a href="/auth/login">Sign In</a></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

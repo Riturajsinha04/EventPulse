@@ -38,34 +38,28 @@ app.use(setUserLocals);
 // Mount Application Routes
 const indexRoutes = require('./routes/indexRoutes');
 const authRoutes = require('./routes/authRoutes');
-const productRoutes = require('./routes/productRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
-app.use('/products', productRoutes);
+app.use('/events', eventRoutes);
+app.use('/my-tickets', (req, res) => res.redirect('/events/my-tickets'));
 
-// Health check endpoint for Render/Vercel monitoring
+// Health check endpoint for monitoring
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK', message: 'LaunchForge is running smoothly' });
+  res.status(200).json({ status: 'OK', message: 'EventPulse Server is running smoothly' });
 });
 
 // 404 Handler
 app.use((req, res) => {
-  res.status(404).render('index', { 
-    products: [], 
-    categories: ['All'], 
-    selectedCategory: 'All', 
-    searchQuery: '', 
-    selectedSort: 'trending',
-    error: '404 Page Not Found' 
-  });
+  res.status(404).redirect('/events?error=' + encodeURIComponent('404 - Page Not Found'));
 });
 
 // Start Express Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`=================================================`);
-  console.log(`🚀 LaunchForge Server is running on port ${PORT}`);
+  console.log(`⚡ EventPulse Server is running on port ${PORT}`);
   console.log(`🔗 Local URL: http://localhost:${PORT}`);
   console.log(`=================================================`);
 });

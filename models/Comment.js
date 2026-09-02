@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
-  product: {
+  event: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product',
+    ref: 'Event',
     required: true
   },
   author: {

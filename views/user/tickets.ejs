@@ -1,0 +1,89 @@
+<%- include('../partials/header', { title: 'My Tickets Wallet' }) %>
+<%- include('../partials/navbar') %>
+
+<main class="main-content">
+  <div class="container py-4">
+    <div class="wallet-header">
+      <div>
+        <h1 class="page-title"><i class="fa-solid fa-ticket text-accent"></i> My Ticket Wallet</h1>
+        <p class="page-subtitle">Your reserved passes, keynote access codes, and event schedules</p>
+      </div>
+
+      <a href="/events" class="btn btn-secondary">
+        <i class="fa-solid fa-plus"></i> Find More Events
+      </a>
+    </div>
+
+    <% if (error) { %>
+      <div class="alert alert-error">
+        <i class="fa-solid fa-circle-exclamation"></i> <%= error %>
+      </div>
+    <% } %>
+    <% if (success) { %>
+      <div class="alert alert-success">
+        <i class="fa-solid fa-circle-check"></i> <%= success %>
+      </div>
+    <% } %>
+
+    <div class="tickets-grid mt-4">
+      <% if (tickets && tickets.length > 0) { %>
+        <% tickets.forEach(event => { %>
+          <div class="digital-ticket-card">
+            <div class="ticket-left">
+              <div class="ticket-badge-row">
+                <span class="category-pill"><%= event.category %></span>
+                <span class="location-badge location-<%= event.locationType.toLowerCase() %>"><%= event.locationType %></span>
+              </div>
+
+              <h3 class="ticket-event-title">
+                <a href="/events/<%= event._id %>"><%= event.title %></a>
+              </h3>
+              <p class="ticket-event-tagline"><%= event.tagline %></p>
+
+              <div class="ticket-info-grid">
+                <div class="ticket-info-item">
+                  <span class="info-label"><i class="fa-regular fa-calendar"></i> Date &amp; Time</span>
+                  <span class="info-value"><%= new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %> &bull; <%= event.time %></span>
+                </div>
+                <div class="ticket-info-item">
+                  <span class="info-label"><i class="fa-solid fa-location-dot"></i> Venue</span>
+                  <span class="info-value"><%= event.venue.name %> (<%= event.venue.city %>)</span>
+                </div>
+                <div class="ticket-info-item">
+                  <span class="info-label"><i class="fa-solid fa-user-check"></i> Registered Attendee</span>
+                  <span class="info-value"><%= currentUser.name %> (<%= currentUser.email %>)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ticket-stub">
+              <div class="stub-qr">
+                <i class="fa-solid fa-qrcode qr-icon"></i>
+                <span class="pass-code">PASS-<%= event._id.toString().substring(18, 24).toUpperCase() %></span>
+              </div>
+              <div class="stub-actions">
+                <a href="/events/<%= event._id %>" class="btn btn-primary btn-sm btn-block">
+                  View Schedule
+                </a>
+                <form action="/events/<%= event._id %>/rsvp" method="POST" class="mt-2" onsubmit="return confirm('Cancel registration for this event?');">
+                  <button type="submit" class="btn btn-secondary btn-sm btn-block">
+                    Cancel Pass
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="empty-state card-box">
+          <i class="fa-solid fa-ticket-simple empty-icon"></i>
+          <h3>Your ticket wallet is empty</h3>
+          <p>You haven't registered for any tech conferences or meetups yet.</p>
+          <a href="/events" class="btn btn-primary mt-3">Browse &amp; Claim Event Passes</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
