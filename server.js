@@ -55,11 +55,15 @@ app.use((req, res) => {
   res.status(404).redirect('/events?error=' + encodeURIComponent('404 - Page Not Found'));
 });
 
-// Start Express Server
+// Start Express Server if run directly
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`=================================================`);
-  console.log(`⚡ EventPulse Server is running on port ${PORT}`);
-  console.log(`🔗 Local URL: http://localhost:${PORT}`);
-  console.log(`=================================================`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`=================================================`);
+    console.log(`⚡ EventPulse Server is running on port ${PORT}`);
+    console.log(`🔗 Local URL: http://localhost:${PORT}`);
+    console.log(`=================================================`);
+  });
+}
+
+module.exports = app;
