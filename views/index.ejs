@@ -72,7 +72,7 @@
           <% featuredEvents.forEach(event => { %>
             <div class="featured-card">
               <div class="featured-img-wrap">
-                <img src="<%= event.image %>" alt="<%= event.title %>" class="featured-img">
+                <img src="<%= event.image %>" alt="<%= event.title %>" class="featured-img" loading="lazy">
                 <span class="category-badge"><%= event.category %></span>
                 <span class="location-badge location-<%= event.locationType.toLowerCase() %>">
                   <i class="fa-solid <%= event.locationType === 'Online' ? 'fa-video' : 'fa-location-dot' %>"></i>
@@ -140,7 +140,7 @@
           <% upcomingEvents.forEach(event => { %>
             <div class="event-card">
               <div class="card-image-wrap">
-                <img src="<%= event.image %>" alt="<%= event.title %>" class="event-card-img">
+                <img src="<%= event.image %>" alt="<%= event.title %>" class="event-card-img" loading="lazy">
                 <span class="price-badge <%= event.ticketPrice === 0 ? 'free-badge' : 'paid-badge' %>">
                   <%= event.ticketPrice === 0 ? 'FREE PASS' : '$' + event.ticketPrice %>
                 </span>
