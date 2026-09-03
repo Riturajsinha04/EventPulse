@@ -39,7 +39,13 @@ exports.postRegister = async (req, res) => {
       avatar: newUser.avatar
     };
 
-    res.redirect('/?success=' + encodeURIComponent(`Welcome to EventPulse, ${newUser.name}!`));
+    req.session.save((err) => {
+      if (err) console.error('Session save error:', err);
+      if (newUser.role === 'organizer') {
+        return res.redirect('/events/new?success=' + encodeURIComponent(`Welcome ${newUser.name}! Host your event below.`));
+      }
+      res.redirect('/?success=' + encodeURIComponent(`Welcome to EventPulse, ${newUser.name}!`));
+    });
   } catch (error) {
     res.render('auth/register', { error: error.message });
   }
@@ -74,7 +80,13 @@ exports.postLogin = async (req, res) => {
       avatar: user.avatar
     };
 
-    res.redirect('/?success=' + encodeURIComponent(`Welcome back, ${user.name}!`));
+    req.session.save((err) => {
+      if (err) console.error('Session save error:', err);
+      if (user.role === 'organizer') {
+        return res.redirect('/events/new?success=' + encodeURIComponent(`Welcome back ${user.name}!`));
+      }
+      res.redirect('/?success=' + encodeURIComponent(`Welcome back, ${user.name}!`));
+    });
   } catch (error) {
     res.render('auth/login', { error: error.message });
   }

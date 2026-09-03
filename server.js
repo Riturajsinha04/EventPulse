@@ -9,6 +9,7 @@ const { setUserLocals } = require('./middleware/authMiddleware');
 
 // Initialize Express app
 const app = express();
+app.set('trust proxy', 1); // Trust Vercel/Render reverse proxies
 
 // Middleware to ensure DB connection on serverless requests
 app.use(async (req, res, next) => {
@@ -43,7 +44,9 @@ app.use(session({
     ttl: 60 * 60 * 24 * 7 // 7 Days
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 Days session lifespan
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 Days session lifespan
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production'
   }
 }));
 
