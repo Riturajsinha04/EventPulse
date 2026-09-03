@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const methodOverride = require('method-override');
 const connectDB = require('./config/db');
 const { setUserLocals } = require('./middleware/authMiddleware');
@@ -30,11 +31,17 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
-// Session Management Setup
+// Session Management Setup with MongoDB Atlas Store
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'launchforge_super_secret_key_2026',
+  name: 'eventpulse.sid',
+  secret: process.env.SESSION_SECRET || 'eventpulse_super_secret_session_key_2026',
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/eventpulse',
+    collectionName: 'sessions',
+    ttl: 60 * 60 * 24 * 7 // 7 Days
+  }),
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7 // 7 Days session lifespan
   }

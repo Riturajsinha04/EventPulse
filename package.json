@@ -8,11 +8,20 @@
     "dev": "node --watch server.js",
     "seed": "node seed.js"
   },
-  "keywords": ["express", "ejs", "mongodb", "ssr", "eventpulse", "tech-conferences", "meetups"],
+  "keywords": [
+    "express",
+    "ejs",
+    "mongodb",
+    "ssr",
+    "eventpulse",
+    "tech-conferences",
+    "meetups"
+  ],
   "author": "Tech Community",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-mongo": "^6.0.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
