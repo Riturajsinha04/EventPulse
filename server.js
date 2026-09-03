@@ -9,7 +9,7 @@ const { setUserLocals } = require('./middleware/authMiddleware');
 
 // Initialize Express app
 const app = express();
-app.set('trust proxy', 1); // Trust Vercel/Render reverse proxies
+app.set('trust proxy', true); // Trust Vercel & Render reverse proxies
 
 // Middleware to ensure DB connection on serverless requests
 app.use(async (req, res, next) => {
@@ -36,7 +36,7 @@ app.use(methodOverride('_method'));
 app.use(session({
   name: 'eventpulse.sid',
   secret: process.env.SESSION_SECRET || 'eventpulse_super_secret_session_key_2026',
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/eventpulse',
@@ -46,7 +46,7 @@ app.use(session({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 Days session lifespan
     sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production'
+    secure: false // Ensures Vercel proxy delivers cookie reliably across form POSTs
   }
 }));
 

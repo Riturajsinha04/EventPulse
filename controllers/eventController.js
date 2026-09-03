@@ -111,7 +111,10 @@ exports.createEvent = async (req, res) => {
     });
 
     await newEvent.save();
-    res.redirect(`/events/${newEvent._id}?success=` + encodeURIComponent('Event published successfully!'));
+    req.session.save((err) => {
+      if (err) console.error('Session save error:', err);
+      res.redirect(`/events/${newEvent._id}?success=` + encodeURIComponent('Event published successfully!'));
+    });
   } catch (error) {
     const categories = ['AI & Data', 'Web Dev', 'Cloud & DevOps', 'Cybersecurity', 'Mobile', 'Design & UX'];
     res.render('events/new', { categories, error: error.message });
